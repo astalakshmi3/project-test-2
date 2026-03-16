@@ -50,6 +50,7 @@ public class Customer {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
+    //Relationship
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_detail_id")
     private CustomerDetail customerDetail;
@@ -57,9 +58,17 @@ public class Customer {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @Column (nullable = false)
+    private LocalDateTime updatedAt;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
     }
 
 }

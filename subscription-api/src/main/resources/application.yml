@@ -1,10 +1,11 @@
 spring:
   application:
     name: subscription-api
+
   datasource:
-    url: jdbc:mysql://localhost:3307/subscription_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Stockholm
+    url: jdbc:mysql://localhost:3306/subscription_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Europe/Stockholm
     username: root
-    password: root
+    password: Nirubidhaa27
     hikari:
       pool-name: HikariJpaPool
       maximum-pool-size: 10
@@ -13,18 +14,19 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       connection-test-query: SELECT 1
+
   data:
     redis:
       host: localhost
       port: 6379
+
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
-    hibernate:
-      ddl-auto: create
-    database-platform: org.hibernate.dialect.MySQLDialect
 
 springdoc:
   swagger-ui:
