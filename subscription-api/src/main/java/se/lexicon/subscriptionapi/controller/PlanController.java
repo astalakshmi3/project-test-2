@@ -59,4 +59,11 @@ public class PlanController {
     public ResponseEntity<List<PlanResponse>> findByOperatorIdAndActiveTrue(@PathVariable String operatorId, @RequestParam Boolean active) {
         return ResponseEntity.ok(planService.findByOperatorIdAndActiveTrue(Long.valueOf(operatorId), active));
     }
+
+    @GetMapping("/active/type/{serviceType}")
+    @Operation(summary = "Get active subscription plans by service type", description = "Retrieves a list of active subscription plans filtered by service type")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public ResponseEntity<List<PlanResponse>> findAllPlanByServiceType(@PathVariable String serviceType) {
+        return ResponseEntity.ok(planService.findAllPlanByServiceType(se.lexicon.subscriptionapi.domain.constant.ServiceType.valueOf(serviceType.toUpperCase())));
+    }
 }

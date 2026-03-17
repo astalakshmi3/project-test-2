@@ -62,12 +62,14 @@ public class Customer {
     private LocalDateTime updatedAt;
 
     @PrePersist
-    protected void onCreate() {
+    private void prePersist() {
         createdAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    protected void onUpdate() {
+    private void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
 

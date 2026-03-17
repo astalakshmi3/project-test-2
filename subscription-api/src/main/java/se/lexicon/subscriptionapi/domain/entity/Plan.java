@@ -38,8 +38,9 @@ public class Plan {
     @Column(nullable = false)
     private boolean active;
 
-    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false,  unique = true, length = 50)
+    @Enumerated(EnumType.STRING)
     @NotNull(message = "Service type is required")
     private ServiceType serviceType;
 

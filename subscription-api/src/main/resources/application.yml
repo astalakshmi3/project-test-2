@@ -42,4 +42,4 @@ app:
     expiration-ms: 86400000
   security:
     token-blacklist:
-      enabled: true
+      enabled: false
