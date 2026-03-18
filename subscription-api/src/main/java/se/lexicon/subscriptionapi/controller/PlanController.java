@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.subscriptionapi.domain.entity.Plan;
+import se.lexicon.subscriptionapi.dto.request.PlanRequest;
 import se.lexicon.subscriptionapi.dto.response.PlanResponse;
 import se.lexicon.subscriptionapi.service.PlanService;
 
@@ -24,19 +25,20 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @SecurityRequirement(name = "bearerAuth")
 public class PlanController {
     private final PlanService planService;
+    private PlanRequest planRequest;
 
     @PostMapping
     @Operation(summary = "Create a new subscription plan", description = "Creates a new subscription plan with the provided details")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PlanResponse> createPlan(@RequestBody Plan plan) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(planService.createPlan(plan));
+        return ResponseEntity.status(HttpStatus.CREATED).body(planService.createPlan(planRequest));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update an existing subscription plan", description = "Updates the details of an existing subscription plan by its ID")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PlanResponse> updatePlan(@PathVariable Long id, @RequestBody Plan planRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(planService.updatePlan(id, planRequest));
+    public ResponseEntity<PlanResponse> updatePlan(@PathVariable Long id, @RequestBody PlanRequest planRequest) {
+        return ResponseEntity.ok(planService.updatePlan(id, planRequest));
     }
 
     @DeleteMapping ("/{id}")
