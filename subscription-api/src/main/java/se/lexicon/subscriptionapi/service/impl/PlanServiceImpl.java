@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.subscriptionapi.domain.constant.ServiceType;
 import se.lexicon.subscriptionapi.domain.entity.Operator;
 import se.lexicon.subscriptionapi.domain.entity.Plan;
+import se.lexicon.subscriptionapi.dto.request.PlanRequest;
 import se.lexicon.subscriptionapi.dto.response.PlanResponse;
 import se.lexicon.subscriptionapi.exception.ResourceNotFoundException;
 import se.lexicon.subscriptionapi.mapper.PlanMapper;
@@ -27,33 +28,34 @@ public class PlanServiceImpl implements PlanService {
 
     @Override
     @Transactional
-    public PlanResponse createPlan( Plan planRequest) {
-        if (planRepository.existsById(planRequest.getId())){
-            throw new ResourceNotFoundException("Plan already exists with operator id: " + planRequest.getId());
-        }
+    public PlanResponse createPlan( PlanRequest planRequest) {
+
         Plan plan = planMapper.toEntity(planRequest);
-        Operator operator = operatorRepository.findById(planRequest.getOperator().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Operator not found with id: " + planRequest.getOperator().getId()));
+        Operator operator = operatorRepository.findById(planRequest.operatorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Operator not found with id: " + planRequest.operatorId()));
         plan.setOperator(operator);
         Plan savedPlan = planRepository.save(plan);
         return planMapper.toResponse(savedPlan);
-
     }
 
     @Override
     @Transactional
-    public PlanResponse updatePlan(Long id, Plan planRequest) {
-        if (planRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Plan already exists with id: " + id);
-        }
-        Plan plan = planMapper.toEntity(planRequest);
-        plan.setId(id);
-        Operator operator = operatorRepository.findById(planRequest.getOperator().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Operator not found with id: " + planRequest.getOperator().getId()));
-        plan.setOperator(operator);
-        Plan updatedPlan = planRepository.save(plan);
+    public PlanResponse updatePlan(Long id, PlanRequest planRequest) {
+        Plan existingPlan = planRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Plan not found with id: " + id));
+
+        existingPlan.setName(planRequest.name());
+        existingPlan.setPrice(planRequest.price());
+        existingPlan.setServiceType(planRequest.serviceType());
+        existingPlan.setActive(planRequest.active());
+        Operator operator = operatorRepository.findById(planRequest.operatorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Operator not found with id: " + planRequest.operatorId()));
+        existingPlan.setOperator(operator);
+        Plan updatedPlan = planRepository.save(existingPlan);
         return planMapper.toResponse(updatedPlan);
+
     }
+
 
     @Override
     @Transactional

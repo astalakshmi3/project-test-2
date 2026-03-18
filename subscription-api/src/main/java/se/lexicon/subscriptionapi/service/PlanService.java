@@ -9,8 +9,8 @@ import java.security.Provider;
 import java.util.List;
 
 public interface PlanService {
-    PlanResponse createPlan(Plan planRequest);
-    PlanResponse updatePlan(Long id,Plan planRequest);
+    PlanResponse createPlan(PlanRequest planRequest);
+    PlanResponse updatePlan(Long id,PlanRequest planRequest);
     void deletePlan(Long id);
     List<PlanResponse> findAllActivePlan();
     List<PlanResponse> findAllPlanByServiceType(ServiceType serviceType);

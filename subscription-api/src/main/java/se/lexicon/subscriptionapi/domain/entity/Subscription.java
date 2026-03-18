@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 @Entity
 @Table(name = "subscriptions")
-public class Subscription {
+public class   Subscription {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +28,7 @@ public class Subscription {
     private LocalDateTime startedAt;
 
     @Column(nullable = false, updatable = false)
-    private LocalDateTime endedAt;
+    private LocalDateTime cancelledAt;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -39,6 +39,7 @@ public class Subscription {
     @PrePersist
     public void prePersist() {
         createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
     }
 
     @PreUpdate

@@ -7,7 +7,7 @@ import se.lexicon.subscriptionapi.dto.response.PlanResponse;
 
 @Mapper(componentModel = "spring")
 public interface PlanMapper {
-    Plan toEntity(Plan planRequest);
+    Plan toEntity(PlanRequest planRequest);
     PlanResponse toResponse(Plan plan);
 
 }

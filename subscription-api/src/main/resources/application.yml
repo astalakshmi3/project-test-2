@@ -43,3 +43,5 @@ app:
   security:
     token-blacklist:
       enabled: false
+      redis:
+        key-prefix: "blacklist:token:"
