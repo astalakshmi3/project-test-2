@@ -12,7 +12,6 @@ import se.lexicon.subscriptionapi.domain.entity.Plan;
 import se.lexicon.subscriptionapi.repository.CustomerRepository;
 import se.lexicon.subscriptionapi.repository.OperatorRepository;
 import se.lexicon.subscriptionapi.repository.PlanRepository;
-import se.lexicon.subscriptionapi.repository.SubscriptionRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -28,13 +27,13 @@ public class DataSeeder implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final OperatorRepository operatorRepository;
     private final PlanRepository planRepository;
-    private final SubscriptionRepository subscriptionRepository;
 
     @Override
     public void run(String... args) throws Exception {
         seedAdminUser();
         seedRegularUser();
         seedOperatorsAndPlans();
+
     }
 
     private void seedOperatorsAndPlans() {
@@ -47,11 +46,11 @@ public class DataSeeder implements CommandLineRunner {
         telia.setUpdatedAt(LocalDateTime.now());
         operatorRepository.save(telia);
 
-        Operator telenor =  new Operator();
-        telenor.setName("telenor");
-        telenor.setCreatedAt(LocalDateTime.now());
-        telenor.setUpdatedAt(LocalDateTime.now());
-        operatorRepository.save(telenor);
+        Operator tenor =  new Operator();
+        tenor.setName("tenor");
+        tenor.setCreatedAt(LocalDateTime.now());
+        tenor.setUpdatedAt(LocalDateTime.now());
+        operatorRepository.save(tenor);
 
         Operator airtel = new Operator();
         airtel.setName("Airtel");
@@ -72,8 +71,8 @@ public class DataSeeder implements CommandLineRunner {
         planRepository.save(createPlan("Mobile Unlimited", 499, ServiceType.MOBILE, null, false, telia)); // inactive
 
         // Telenor Plans
-        planRepository.save(createPlan("Fiber 300", 549, ServiceType.INTERNET, null, true, telenor));
-        planRepository.save(createPlan("Mobile Plus", 299, ServiceType.MOBILE, 30, true, telenor));
+        planRepository.save(createPlan("Fiber 300", 549, ServiceType.INTERNET, null, true, tenor));
+        planRepository.save(createPlan("Mobile Plus", 299, ServiceType.MOBILE, 30, true, tenor));
 
         // Airtel plans
         planRepository.save(createPlan("Airtel Fiber 200", 449, ServiceType.INTERNET, null, true, airtel));
@@ -87,7 +86,7 @@ public class DataSeeder implements CommandLineRunner {
         planRepository.save(createPlan("Vodafone Mobile Basic", 149, ServiceType.MOBILE, 5, false, vodafone)); // inactive
 
         System.out.println("[DATA_SEED] Operators and plans seeded");
-
+        customerRepository.findAll().forEach(customer -> System.out.println("[DATA_SEED] Customer: " + customer.getEmail()));
 
     }
     private Plan createPlan(String name, int price, ServiceType serviceType, Integer dataLimit, boolean active, Operator operator) {

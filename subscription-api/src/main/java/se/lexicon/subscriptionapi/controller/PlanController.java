@@ -30,7 +30,7 @@ public class PlanController {
     @PostMapping
     @Operation(summary = "Create a new subscription plan", description = "Creates a new subscription plan with the provided details")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<PlanResponse> createPlan(@RequestBody Plan plan) {
+    public ResponseEntity<PlanResponse> createPlan(@RequestBody PlanRequest planRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(planService.createPlan(planRequest));
     }
 
